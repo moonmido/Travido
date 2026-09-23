@@ -1,6 +1,6 @@
-from typing import TypedDict,Any,Dict,Optional,List
-
-class FlightState(TypedDict, total=False):
+from typing import Any,Dict,Optional,List
+from pydantic import BaseModel
+class FlightState(BaseModel, total=False):
 
     search_params: Dict[str, Any]
 

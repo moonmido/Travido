@@ -1,7 +1,8 @@
 
-from typing import TypedDict,Any,Dict,Optional,List
+from typing import Any,Dict,Optional,List
+from pydantic import BaseModel
 
-class CriticState(TypedDict, total=False):
+class CriticState(BaseModel, total=False):
 
     valid: bool
 

@@ -1,6 +1,7 @@
-from typing import TypedDict,Any,Dict,Optional,List
+from typing import Any,Dict,Optional,List
+from pydantic import BaseModel
 
-class HotelState(TypedDict, total=False):
+class HotelState(BaseModel, total=False):
 
     search_params: Dict[str, Any]
 

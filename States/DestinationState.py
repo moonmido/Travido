@@ -1,8 +1,9 @@
+from pydantic import BaseModel
 
-from typing import TypedDict,Any,Dict,Optional,List
+from typing import Any,Dict,Optional,List
 
 
-class DestinationState(TypedDict, total=False):
+class DestinationState(BaseModel, total=False):
 
     attractions: List[Dict[str, Any]]
 

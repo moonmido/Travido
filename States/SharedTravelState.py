@@ -4,7 +4,7 @@ from typing import TypedDict, List, Dict, Any, Optional
 class TravelState(TypedDict, total=False):
 
     # =========================
-    # SHARED 
+    # SHARED / Constraint Builder
     # =========================
 
     user_query: str

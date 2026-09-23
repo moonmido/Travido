@@ -1,7 +1,8 @@
-from typing import TypedDict,Any,Dict,Optional,List
+from typing import Any,Dict,Optional,List
+from pydantic import BaseModel
 
 
-class AggregatedTravelState(TypedDict, total=False):
+class AggregatedTravelState(BaseModel, total=False):
 
     flight_data: Dict[str, Any]
 

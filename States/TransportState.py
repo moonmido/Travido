@@ -1,6 +1,7 @@
-from typing import TypedDict,Any,Dict,Optional,List
+from typing import Any,Dict,Optional,List
+from pydantic import BaseModel
 
-class TransportState(TypedDict, total=False):
+class TransportState(BaseModel, total=False):
 
     transport_options: List[Dict[str, Any]]
 

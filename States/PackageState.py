@@ -1,7 +1,8 @@
-from typing import TypedDict,Any,Dict,Optional,List
+from typing import Any,Dict,Optional,List
+from pydantic import BaseModel
 
 
-class PackageState(TypedDict, total=False):
+class PackageState(BaseModel, total=False):
 
     candidate_packages: List[Dict[str, Any]]
 

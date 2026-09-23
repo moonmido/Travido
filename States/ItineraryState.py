@@ -1,7 +1,7 @@
+from pydantic import BaseModel
+from typing import Any,Dict,List
 
-from typing import TypedDict,Any,Dict,List
-
-class ItineraryState(TypedDict, total=False):
+class ItineraryState(BaseModel total=False):
 
     itinerary: List[Dict[str, Any]]
 
