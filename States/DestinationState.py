@@ -1,9 +1,9 @@
-from pydantic import BaseModel
-
+from pydantic import BaseModel, ConfigDict
 from typing import Any,Dict,Optional,List
 
 
-class DestinationState(BaseModel, total=False):
+class DestinationState(BaseModel):
+    model_config = ConfigDict(total=False)
 
     attractions: List[Dict[str, Any]]
 

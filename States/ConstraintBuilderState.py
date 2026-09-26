@@ -1,7 +1,8 @@
 
 from typing import List,Dict,Any
-from pydantic import BaseModel
-class ConstraintBuilderState(BaseModel,total=False):
+from pydantic import BaseModel, ConfigDict
+class ConstraintBuilderState(BaseModel):
+    model_config = ConfigDict(total=False)
 
     user_query: str
 

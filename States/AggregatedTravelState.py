@@ -1,8 +1,7 @@
 from typing import Any,Dict,Optional,List
-from pydantic import BaseModel
-
-
-class AggregatedTravelState(BaseModel, total=False):
+from pydantic import BaseModel, ConfigDict
+class AggregatedTravelState(BaseModel):
+    model_config = ConfigDict(total=False)
 
     flight_data: Dict[str, Any]
 

@@ -86,8 +86,8 @@ def get_current_weather(
             "success": False,
             "error": str(e)
         }
-    
- @tool
+
+@tool
 def get_weather_forecast(
     latitude: float,
     longitude: float

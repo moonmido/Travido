@@ -1,7 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Any,Dict,List
 
-class ItineraryState(BaseModel total=False):
+class ItineraryState(BaseModel):
+    model_config = ConfigDict(total=False)
 
     itinerary: List[Dict[str, Any]]
 

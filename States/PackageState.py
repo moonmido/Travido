@@ -1,8 +1,7 @@
 from typing import Any,Dict,Optional,List
-from pydantic import BaseModel
-
-
-class PackageState(BaseModel, total=False):
+from pydantic import BaseModel, ConfigDict
+class PackageState(BaseModel):
+    model_config = ConfigDict(total=False)
 
     candidate_packages: List[Dict[str, Any]]
 

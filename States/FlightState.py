@@ -1,6 +1,7 @@
 from typing import Any,Dict,Optional,List
-from pydantic import BaseModel
-class FlightState(BaseModel, total=False):
+from pydantic import BaseModel, ConfigDict
+class FlightState(BaseModel):
+    model_config = ConfigDict(total=False)
 
     search_params: Dict[str, Any]
 

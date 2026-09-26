@@ -1,8 +1,8 @@
 
 from typing import Any,Dict,Optional,List
-from pydantic import BaseModel
-
-class CriticState(BaseModel, total=False):
+from pydantic import BaseModel, ConfigDict
+class CriticState(BaseModel):
+    model_config = ConfigDict(total=False)
 
     valid: bool
 

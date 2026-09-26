@@ -89,6 +89,12 @@ class TravelState(TypedDict, total=False):
     max_iterations: int
 
     # =========================
+    # ERROR HANDLING
+    # =========================
+
+    node_errors: List[str]
+
+    # =========================
     # OUTPUT
     # =========================
 
