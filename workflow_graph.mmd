@@ -1,0 +1,36 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__(<p>__start__</p>)
+	constraint_builder(constraint_builder)
+	flight(flight)
+	hotel(hotel)
+	destination_research(destination_research)
+	aggregator(aggregator)
+	transport(transport)
+	package_optimizer(package_optimizer)
+	itinerary_planner(itinerary_planner)
+	critic(critic)
+	finalize(finalize)
+	__default_error_handler__(<p>__default_error_handler__</p>)
+	__end__(<p>__end__</p>)
+	__start__ --> constraint_builder;
+	aggregator --> transport;
+	constraint_builder --> destination_research;
+	constraint_builder --> flight;
+	constraint_builder --> hotel;
+	critic -.-> finalize;
+	critic -.-> package_optimizer;
+	destination_research --> aggregator;
+	flight --> aggregator;
+	hotel --> aggregator;
+	itinerary_planner --> critic;
+	package_optimizer --> itinerary_planner;
+	transport --> package_optimizer;
+	finalize --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
