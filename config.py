@@ -1,4 +1,5 @@
 import os
+import ssl
 
 import certifi
 from dotenv import load_dotenv
@@ -9,6 +10,24 @@ load_dotenv()
 # TLS client (aiohttp in the NVIDIA SDK, httpx, requests) fails certificate
 # verification. Point OpenSSL at the certifi bundle shipped in the venv.
 os.environ.setdefault("SSL_CERT_FILE", certifi.where())
+
+# The environment variable above is only read when an SSL context is CREATED,
+# which for aiohttp (used by the NVIDIA SDK) can be cached before this module
+# runs in some processes. Force the bundle into every default context instead,
+# so the guarantee does not depend on import order.
+_ssl_create_default_context = ssl.create_default_context
+
+
+def _certifi_context(*args, **kwargs):
+    context = _ssl_create_default_context(*args, **kwargs)
+    try:
+        context.load_verify_locations(cafile=certifi.where())
+    except Exception:  # noqa: BLE001 - never break TLS setup because of this
+        pass
+    return context
+
+
+ssl.create_default_context = _certifi_context
 
 NVIDIA_API_KEY = os.getenv("NVIDIA_API_KEY", "")
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")
