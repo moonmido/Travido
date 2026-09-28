@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Travido &middot; agent workflow</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">T</span>
+      <div>
+        <h1>Travido</h1>
+        <p>Fill the trip fields, watch the agents hand state to each other</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span id="status" class="status status--idle">idle</span>
+      <button id="run" class="btn btn--primary">Start</button>
+      <button id="cancel" class="btn" disabled>Cancel</button>
+      <button id="reset" class="btn">Clear</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- ------------------------------------------------ form -->
+    <section class="panel panel--form">
+      <h2>Trip details</h2>
+      <p class="hint">No chat box. Every field below becomes part of the shared travel state.</p>
+
+      <form id="trip-form" autocomplete="off">
+        <fieldset>
+          <legend>Route</legend>
+          <div class="grid grid--2">
+            <label>Origin
+              <input name="origin" value="Algiers, Algeria" required />
+            </label>
+            <label>Destination
+              <input name="destination" value="Amsterdam, Netherlands" required />
+            </label>
+            <label>Departure
+              <input name="departure_date" type="date" value="2027-03-09" required />
+            </label>
+            <label>Return
+              <input name="return_date" type="date" value="2027-03-15" required />
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Travellers</legend>
+          <div class="grid grid--4">
+            <label>Adults
+              <input name="adults" type="number" min="1" value="1" />
+            </label>
+            <label>Children
+              <input name="children" type="number" min="0" value="0" />
+            </label>
+            <label>Rooms
+              <input name="rooms" type="number" min="1" value="1" />
+            </label>
+            <label>Cabin bags
+              <input name="cabin_bags" type="number" min="0" value="1" />
+            </label>
+            <label>Checked bags
+              <input name="checked_bags" type="number" min="0" value="1" />
+            </label>
+            <label>Max weight (kg)
+              <input name="checked_bag_kg" type="number" min="0" value="24" />
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Budget &amp; priority</legend>
+          <div class="grid grid--2">
+            <label>Budget
+              <input name="budget" type="number" step="0.01" min="0" placeholder="no limit" />
+            </label>
+            <label>Currency
+              <input name="currency" value="EUR" />
+            </label>
+            <label>Cost priority
+              <select name="cost_priority">
+                <option value="lowest total cost" selected>Lowest total cost</option>
+                <option value="balanced">Balanced</option>
+                <option value="best value for money">Best value for money</option>
+                <option value="cheapest flights, flexible on hotels">Cheapest flights only</option>
+              </select>
+            </label>
+            <label class="check">
+              <input name="budget_is_strict" type="checkbox" />
+              <span>Budget is a hard limit</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Preferences</legend>
+          <div class="grid">
+            <label>Travel style
+              <input name="travel_style" placeholder="budget, backpacker, luxury..." />
+            </label>
+            <label>Accommodation
+              <input name="accommodation" placeholder="hostel, guesthouse, 3 star hotel" />
+            </label>
+            <label>Flight preferences
+              <input name="flight_prefs" placeholder="cheapest fare, extra stops are fine" />
+            </label>
+            <label>Transport preferences
+              <input name="transport_prefs" placeholder="train, bus, walk, OV-chipkaart" />
+            </label>
+            <label>Activities
+              <input name="activities" placeholder="museums, free walking tours, food" />
+            </label>
+            <label>Food
+              <input name="food" placeholder="street food, no reservations" />
+            </label>
+            <label>Additional notes
+              <textarea name="notes" rows="2" placeholder="Anything the agents must respect"></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Workflow</legend>
+          <div class="grid grid--2">
+            <label>Max critic revisions
+              <input name="max_iterations" type="number" min="1" max="5" value="3" />
+            </label>
+            <div class="policy-box">
+              <span class="policy-title">Retry &amp; timeout</span>
+              <div id="policy-table" class="policy-table">loading&hellip;</div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+
+      <details class="query-preview">
+        <summary>Query sent to the agents</summary>
+        <pre id="query-box">&mdash;</pre>
+      </details>
+    </section>
+
+    <!-- ------------------------------------------------ pipeline -->
+    <section class="panel panel--pipeline">
+      <h2>Agent pipeline</h2>
+      <p class="hint">The three research agents run in parallel, then fan in at the aggregator.</p>
+      <div class="graph-wrap">
+        <svg id="graph" viewBox="0 0 760 720" preserveAspectRatio="xMidYMin meet"></svg>
+      </div>
+      <div id="node-detail" class="node-detail">
+        <p class="hint">Run the plan, then click any node to inspect the state it wrote.</p>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------ state + result -->
+    <section class="panel panel--state">
+      <div class="state-head">
+        <h2>Shared travel state</h2>
+        <div class="tabs">
+          <button class="tab tab--active" data-tab="live">Live state</button>
+          <button class="tab" data-tab="result">Final response</button>
+          <button class="tab" data-tab="events">Event log</button>
+        </div>
+      </div>
+      <pre id="state-view" class="state-view">{}</pre>
+      <pre id="result-view" class="state-view" hidden></pre>
+      <pre id="events-view" class="state-view" hidden></pre>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
