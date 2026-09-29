@@ -1,14 +1,16 @@
-from typing import Any,Dict,Optional,List
+from typing import Any, Dict, Optional, List
 from pydantic import BaseModel, ConfigDict
+
+
 class HotelState(BaseModel):
     model_config = ConfigDict(total=False)
 
-    search_params: Dict[str, Any]
+    search_params: Optional[Dict[str, Any]] = None
 
-    available_hotels: List[Dict[str, Any]]
+    available_hotels: Optional[List[Dict[str, Any]]] = None
 
-    selected_hotel: Optional[Dict[str, Any]]
+    selected_hotel: Optional[Dict[str, Any]] = None
 
-    total_hotel_cost: float
+    total_hotel_cost: Optional[float] = None
 
-    errors: List[str]
+    errors: Optional[List[str]] = None

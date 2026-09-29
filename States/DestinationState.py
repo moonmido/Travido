@@ -1,18 +1,18 @@
 from pydantic import BaseModel, ConfigDict
-from typing import Any,Dict,Optional,List
+from typing import Any, Dict, Optional, List
 
 
 class DestinationState(BaseModel):
     model_config = ConfigDict(total=False)
 
-    attractions: List[Dict[str, Any]]
+    attractions: Optional[List[Dict[str, Any]]] = None
 
-    activities: List[Dict[str, Any]]
+    activities: Optional[List[Dict[str, Any]]] = None
 
-    restaurants: List[Dict[str, Any]]
+    restaurants: Optional[List[Dict[str, Any]]] = None
 
-    local_tips: List[str]
+    local_tips: Optional[List[str]] = None
 
-    destination_research: Dict[str, Any]
+    destination_research: Optional[Dict[str, Any]] = None
 
-    errors: List[str]
+    errors: Optional[List[str]] = None

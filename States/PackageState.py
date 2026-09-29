@@ -1,16 +1,18 @@
-from typing import Any,Dict,Optional,List
+from typing import Any, Dict, Optional, List
 from pydantic import BaseModel, ConfigDict
+
+
 class PackageState(BaseModel):
     model_config = ConfigDict(total=False)
 
-    candidate_packages: List[Dict[str, Any]]
+    candidate_packages: Optional[List[Dict[str, Any]]] = None
 
-    optimized_package: Optional[Dict[str, Any]]
+    optimized_package: Optional[Dict[str, Any]] = None
 
-    total_cost: float
+    total_cost: Optional[float] = None
 
-    remaining_budget: float
+    remaining_budget: Optional[float] = None
 
-    optimization_objective: Dict[str, float]
+    optimization_objective: Optional[Dict[str, float]] = None
 
-    reasoning: str
+    reasoning: Optional[str] = None

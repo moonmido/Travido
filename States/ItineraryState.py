@@ -1,13 +1,14 @@
 from pydantic import BaseModel, ConfigDict
-from typing import Any,Dict,List
+from typing import Any, Dict, List, Optional
+
 
 class ItineraryState(BaseModel):
     model_config = ConfigDict(total=False)
 
-    itinerary: List[Dict[str, Any]]
+    itinerary: Optional[List[Dict[str, Any]]] = None
 
-    daily_plans: Dict[str, Any]
+    daily_plans: Optional[Dict[str, Any]] = None
 
-    itinerary_cost: float
+    itinerary_cost: Optional[float] = None
 
-    warnings: List[str]
+    warnings: Optional[List[str]] = None

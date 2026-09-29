@@ -1,17 +1,18 @@
-
-from typing import Any,Dict,Optional,List
+from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, ConfigDict
+
+
 class CriticState(BaseModel):
     model_config = ConfigDict(total=False)
 
-    valid: bool
+    valid: Optional[bool] = None
 
-    problems: List[Dict[str, Any]]
+    problems: Optional[List[Dict[str, Any]]] = None
 
-    warnings: List[str]
+    warnings: Optional[List[str]] = None
 
-    score: float
+    score: Optional[float] = None
 
-    needs_revision: bool
+    needs_revision: Optional[bool] = None
 
-    revision_instructions: List[str]
+    revision_instructions: Optional[List[str]] = None

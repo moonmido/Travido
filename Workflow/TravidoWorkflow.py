@@ -154,7 +154,8 @@ async def constraint_builder(state: TravelState) -> Dict[str, Any]:
 
     out = await _run_chain(constraintChain(user_query), user_query)
 
-    return {key: out[key] for key in CONSTRAINT_FIELDS if key in out}
+    # skip None values so fields the agent left unknown keep the seeded form data
+    return {key: out[key] for key in CONSTRAINT_FIELDS if key in out and out[key] is not None}
 
 
 async def flight(state: TravelState) -> Dict[str, Any]:

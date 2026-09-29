@@ -1,30 +1,31 @@
-
-from typing import List,Dict,Any
+from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, ConfigDict
+
+
 class ConstraintBuilderState(BaseModel):
     model_config = ConfigDict(total=False)
 
-    user_query: str
+    user_query: Optional[str] = None
 
-    origin: str
-    destination: str
+    origin: Optional[str] = None
+    destination: Optional[str] = None
 
-    departure_date: str
-    return_date: str
+    departure_date: Optional[str] = None
+    return_date: Optional[str] = None
 
-    travelers: int
+    travelers: Optional[int] = None
 
-    budget: float
-    currency: str
+    budget: Optional[float] = None
+    currency: Optional[str] = None
 
-    travel_style: str
+    travel_style: Optional[str] = None
 
-    preferences: Dict[str, Any]
+    preferences: Optional[Dict[str, Any]] = None
 
-    hard_constraints: Dict[str, Any]
-    soft_constraints: Dict[str, Any]
+    hard_constraints: Optional[Dict[str, Any]] = None
+    soft_constraints: Optional[Dict[str, Any]] = None
 
     # Constraint builder metadata
-    missing_information: List[str]
-    contradictions: List[str]
-    clarification_required: bool
+    missing_information: Optional[List[str]] = None
+    contradictions: Optional[List[str]] = None
+    clarification_required: Optional[bool] = None

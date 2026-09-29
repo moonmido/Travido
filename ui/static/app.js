@@ -149,8 +149,8 @@ function showNodeDetail(id) {
   const payload = state.run.payloads[id];
 
   panel.innerHTML = "";
-  panel.appendChild(el("h3", null, spec.label));
-  panel.appendChild(el("p", "meta", `${id}  ·  ${spec.sub}`));
+  panel.appendChild(el("h3", null, spec ? spec.label : id));
+  panel.appendChild(el("p", "meta", `${id}  ·  ${spec ? spec.sub : "internal graph node"}`));
 
   if (!payload) {
     panel.appendChild(el("p", "meta", "not run yet"));
