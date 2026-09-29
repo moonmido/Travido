@@ -1,5 +1,6 @@
 import os
 import ssl
+from typing import Optional
 
 import certifi
 from dotenv import load_dotenv
@@ -34,20 +35,37 @@ TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")
 OPENROUTESERVICE_API_KEY = os.getenv("OPENROUTESERVICE_API_KEY", "")
 OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY", "")
 
-# Two models are needed, neither one works for both jobs:
-#
-#   AGENT_MODEL  honours tool_choice="required", so create_agent(..., response_format=...)
-#                returns a real structured response. gpt-oss-20b silently ignored the
-#                forced tool call and answered in prose, which produced empty state.
-#   CHAIN_MODEL   is much faster on with_structured_output. The agent model needs
-#                ~90s+ per large response_format call, which the default SDK read
-#                timeout cuts off.
-AGENT_MODEL = os.getenv("TRAVIDO_AGENT_MODEL", "nvidia/nemotron-3.5-lightning-30b-a3b")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+# The groq SDK appends /openai/v1 to the base URL itself.
+GROQ_BASE_URL = os.getenv("GROQ_BASE_URL", "https://api.groq.com")
+
+# One Groq model for the whole workflow: gpt-oss-20b handles both the agents'
+# forced tool calls and the chains' structured outputs.
+AGENT_MODEL = os.getenv("TRAVIDO_AGENT_MODEL", "openai/gpt-oss-20b")
 CHAIN_MODEL = os.getenv("TRAVIDO_CHAIN_MODEL", "openai/gpt-oss-20b")
 
 # 1024 truncated the larger structured outputs (aggregator, package optimizer).
 MAX_COMPLETION_TOKENS = int(os.getenv("TRAVIDO_MAX_COMPLETION_TOKENS", "4096"))
 
-# ChatNVIDIA's default read timeout aborts slow model calls, which surfaces as a
-# retryable SocketTimeoutError rather than a real failure.
 LLM_TIMEOUT = float(os.getenv("TRAVIDO_LLM_TIMEOUT", "300"))
+
+
+def chat_model(model: Optional[str] = None, temperature: float = 0.0):
+    """Build the Groq chat model shared by agents and chains."""
+
+    from langchain_groq import ChatGroq
+
+    if not GROQ_API_KEY:
+        raise RuntimeError(
+            "GROQ_API_KEY is not set in .env - add your key from "
+            "https://console.groq.com/keys"
+        )
+
+    return ChatGroq(
+        model=model or AGENT_MODEL,
+        api_key=GROQ_API_KEY,
+        base_url=GROQ_BASE_URL,
+        temperature=temperature,
+        max_tokens=MAX_COMPLETION_TOKENS,
+        timeout=LLM_TIMEOUT,
+    )
