@@ -9,17 +9,6 @@ Describe where you want to go, your budget, dates and interests. Travido's speci
 
 ---
 
-## 📖 Description
-
-Planning a trip means juggling destinations, budgets, weather, activities and logistics across many tabs. Travido automates that process with a team of cooperating AI agents. Each agent has one job (understanding the request, gathering information, planning, reviewing), and a workflow graph controls how they hand work to each other and share state.
-
-**Short repo description (for the GitHub "About" box):**
-
-> Multi-agent AI travel planner built with a graph-based workflow: specialized agents, tools and chains that turn a travel request into a personalized itinerary.
-
-**Suggested topics:** `ai-agents` `multi-agent` `travel-planner` `langchain` `langgraph` `llm` `python` `itinerary`
-
----
 
 ## ✨ Features
 
